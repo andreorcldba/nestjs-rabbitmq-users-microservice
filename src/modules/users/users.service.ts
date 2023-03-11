@@ -16,7 +16,11 @@ export class UsersService {
   ) {}
 
   async findAll(): Promise<Users[] | PgErrorResponseMessage> {
-    const user = await this.usersRepository.find();
+    const user = await this.usersRepository.find({
+      where: {
+        status: true,
+      },
+    });
 
     if (!user.length) return responseHttpErrorMessage[HttpStatus.NOT_FOUND];
 
@@ -27,6 +31,7 @@ export class UsersService {
     const user = await this.usersRepository.findOne({
       where: {
         id,
+        status: true,
       },
     });
 
@@ -49,7 +54,13 @@ export class UsersService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user in microservice`;
+  remove(id: number): UpdateUserDto {
+    const updateUserDto = new UpdateUserDto();
+    updateUserDto.id = id;
+    updateUserDto.status = false;
+
+    this.save(updateUserDto);
+
+    return updateUserDto;
   }
 }

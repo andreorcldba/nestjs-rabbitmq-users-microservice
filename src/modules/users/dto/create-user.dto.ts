@@ -5,7 +5,8 @@ import {
   IsEmpty,
   IsEnum,
   IsOptional,
-  IsNumber
+  IsNumber,
+  IsBoolean,
 } from 'class-validator';
 
 export class CreateUserDto {
@@ -22,10 +23,6 @@ export class CreateUserDto {
   password: string;
 
   @IsOptional()
-  @IsNumber()
-  city_id: number
-
-  @IsOptional()
-  @IsString()
-  skills: string[]
+  @IsBoolean()
+  status: boolean;
 }
