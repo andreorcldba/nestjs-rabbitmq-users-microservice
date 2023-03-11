@@ -13,19 +13,6 @@ export class UsersService {
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
   ) {}
-  async create(
-    createUserDto: CreateUserDto,
-  ): Promise<Users | PgErrorResponseMessage | string> {
-    try {
-      const user = new Users(createUserDto);
-
-      return await this.usersRepository.save(user);
-    } catch (error) {
-      console.log(error);
-
-      return responsePgErrorMessage[error?.code || 'unknown'];
-    }
-  }
 
   findAll() {
     return `This action returns all users in microservice`;
@@ -35,8 +22,18 @@ export class UsersService {
     return `This action returns a #${id} user in microservice`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user in microservice`;
+  async save(
+    updateOrCreateUserDto: UpdateUserDto | CreateUserDto,
+  ): Promise<Users | PgErrorResponseMessage> {
+    try {
+      const user = new Users(updateOrCreateUserDto);
+
+      return await this.usersRepository.save(user);
+    } catch (error) {
+      console.log(error);
+
+      return responsePgErrorMessage[error?.code || 'unknown'];
+    }
   }
 
   remove(id: number) {

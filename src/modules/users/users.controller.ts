@@ -11,7 +11,7 @@ export class UsersController {
 
   @GlobalRouteDecorator('createUser')
   create(@Payload() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    return this.usersService.save(createUserDto);
   }
 
   @MessagePattern('findAllUsers')
@@ -26,7 +26,7 @@ export class UsersController {
 
   @MessagePattern('updateUser')
   update(@Payload() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(updateUserDto.id, updateUserDto);
+    return this.usersService.save(updateUserDto);
   }
 
   @MessagePattern('removeUser')
