@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { responseHttpErrorMessage } from 'src/constants/http-responses';
 import { responsePgErrorMessage } from 'src/constants/pg-responses';
 import { PgErrorResponseMessage } from 'src/interfaces/pg-error-response.interface';
 import { Repository } from 'typeorm';
@@ -14,12 +15,24 @@ export class UsersService {
     private usersRepository: Repository<Users>,
   ) {}
 
-  findAll() {
-    return `This action returns all users in microservice`;
+  async findAll(): Promise<Users[] | PgErrorResponseMessage> {
+    const user = await this.usersRepository.find();
+
+    if (!user.length) return responseHttpErrorMessage[HttpStatus.NOT_FOUND];
+
+    return user;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user in microservice`;
+  async findOne(id: number): Promise<Users | PgErrorResponseMessage> {
+    const user = await this.usersRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) return responseHttpErrorMessage[HttpStatus.NOT_FOUND];
+
+    return user;
   }
 
   async save(
