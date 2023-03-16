@@ -9,27 +9,27 @@ import { GlobalRouteDecorator } from 'src/custom-decorators/global-route.docorat
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @GlobalRouteDecorator('createUser')
+  @GlobalRouteDecorator('create')
   create(@Payload() createUserDto: CreateUserDto) {
-    return this.usersService.save(createUserDto);
+    return this.usersService.create(createUserDto);
   }
 
-  @MessagePattern('findAllUsers')
+  @MessagePattern('findAll')
   findAll() {
     return this.usersService.findAll();
   }
 
-  @MessagePattern('findOneUser')
+  @MessagePattern('findOne')
   findOne(@Payload() id: number) {
     return this.usersService.findOne(id);
   }
 
-  @MessagePattern('updateUser')
+  @MessagePattern('update')
   update(@Payload() updateUserDto: UpdateUserDto) {
-    return this.usersService.save(updateUserDto);
+    return this.usersService.update(updateUserDto);
   }
 
-  @MessagePattern('removeUser')
+  @MessagePattern('remove')
   remove(@Payload() id: number) {
     return this.usersService.remove(id);
   }

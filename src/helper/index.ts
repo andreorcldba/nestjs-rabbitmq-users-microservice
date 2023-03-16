@@ -5,3 +5,7 @@ export function formatHttpResponse(statusCode: number, message: string[], respon
     response
   };
 }
+
+export function removeJsonKey(json: any) {
+  
+}

@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './modules/users/users.module';
 import * as Joi from 'joi';
+import { AuthenticationsModule } from './modules/authentications/authentications.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import * as Joi from 'joi';
       }),
     }),
     UsersModule,
+    AuthenticationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
