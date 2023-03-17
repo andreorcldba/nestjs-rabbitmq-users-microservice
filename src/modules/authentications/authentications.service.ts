@@ -15,19 +15,22 @@ export class AuthenticationsService {
 
   async authenticate(authenticationDto: AuthenticationDto) {
     const user = await this.usersRepository.findOne({
-      where: { email: authenticationDto.email },
+      where: {
+        email: authenticationDto.email,
+        status: true,
+      },
     });
 
-    if (user) {
-      const isPasswordMatching = await bcrypt.compare(
-        authenticationDto.password,
-        user.password,
-      );
+    if (!user) return responseHttpErrorMessage[HttpStatus.NOT_FOUND];
 
-      if (!isPasswordMatching)
-        return responseHttpErrorMessage[HttpStatus.UNAUTHORIZED];
+    const isPasswordMatching = await bcrypt.compare(
+      authenticationDto.password,
+      user.password,
+    );
 
-      return user;
-    }
+    if (!isPasswordMatching)
+      return responseHttpErrorMessage[HttpStatus.UNAUTHORIZED];
+
+    return user;
   }
 }

@@ -44,9 +44,6 @@ export class UsersService {
       },
     });
 
-    delete user?.remember_token;
-    delete user?.password;
-
     if (!user)
       throw new RpcException(responseHttpErrorMessage[HttpStatus.NOT_FOUND]);
 

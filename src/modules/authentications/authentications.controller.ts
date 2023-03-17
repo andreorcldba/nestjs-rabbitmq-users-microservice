@@ -12,21 +12,6 @@ export class AuthenticationsController {
 
   @GlobalRouteDecorator('log-in')
   async logIn(@Payload() authenticationDto: AuthenticationDto) {
-    return await this.authenticationsService.authenticate(
-      authenticationDto,
-    );
-    //const user = await this.userRepository.findOne({ email: email });
-    //console.log(createAuthenticationDto)
-    // if (user) {
-    //     const isPasswordMatching = await bcrypt.compare(password, user.password);
-
-    //     if (!isPasswordMatching) {
-    //         throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
-    //     }
-
-    //     return user;
-    // }
-    // throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
-    return {};
+    return await this.authenticationsService.authenticate(authenticationDto);
   }
 }
