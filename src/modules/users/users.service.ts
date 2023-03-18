@@ -50,6 +50,20 @@ export class UsersService {
     return user;
   }
 
+  async findOneByEmail(email: string): Promise<Users> {
+    const user = await this.usersRepository.findOne({
+      where: {
+        email,
+        status: true,
+      },
+    });
+
+    if (!user)
+      throw new RpcException(responseHttpErrorMessage[HttpStatus.NOT_FOUND]);
+
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto): Promise<Users> {
     try {
       const user = await this.usersRepository.save({
