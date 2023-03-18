@@ -10,7 +10,7 @@ export class AuthenticationsController {
     private readonly authenticationsService: AuthenticationsService,
   ) {}
 
-  @GlobalRouteDecorator('log-in')
+  @GlobalRouteDecorator('logIn')
   async logIn(@Payload() authenticationDto: AuthenticationDto) {
     return await this.authenticationsService.authenticate(authenticationDto);
   }

@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Payload } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -14,27 +14,27 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @MessagePattern('findAll')
+  @GlobalRouteDecorator('findAll')
   findAll() {
     return this.usersService.findAll();
   }
 
-  @MessagePattern('findOne')
+  @GlobalRouteDecorator('findOne')
   findOne(@Payload() id: number) {
     return this.usersService.findOne(id);
   }
 
-  @MessagePattern('findOneByEmail')
+  @GlobalRouteDecorator('findOneByEmail')
   findOneByEmail(@Payload() email: string) {
     return this.usersService.findOneByEmail(email);
   }
 
-  @MessagePattern('update')
+  @GlobalRouteDecorator('update')
   update(@Payload() updateUserDto: UpdateUserDto) {
     return this.usersService.update(updateUserDto);
   }
 
-  @MessagePattern('remove')
+  @GlobalRouteDecorator('remove')
   remove(@Payload() id: number) {
     return this.usersService.remove(id);
   }

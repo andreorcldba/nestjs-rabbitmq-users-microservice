@@ -6,12 +6,17 @@ import {
 } from '@nestjs/common';
 import { HttpExceptionFilter } from 'src/filters/parseResponseHttpException.filters';
 import { MessagePattern } from '@nestjs/microservices';
-import { ExceptionFilter } from 'src/filters/rpc-exception.filter';
+import { ConfigService } from '@nestjs/config';
 
 export function GlobalRouteDecorator(event: string) {
+  const configService = new ConfigService();
+
   return applyDecorators(
     UseFilters(HttpExceptionFilter),
     UsePipes(new ValidationPipe({ whitelist: true, transform: true })),
-    MessagePattern(event),
+    MessagePattern({
+      eventName: event,
+      token: configService.get('USER_MICROSERVICE_TOKEN'),
+    }),
   );
 }

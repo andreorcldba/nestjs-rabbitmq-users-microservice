@@ -18,9 +18,6 @@ export class Users extends DefaultBaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   public password: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  public remember_token: string;
-
   @Column({ type: 'boolean', default: true, nullable: false })
   public status: boolean;
 }

@@ -4,9 +4,13 @@ import {
   IsString,
   IsOptional,
   IsBoolean,
+  IsEmpty,
 } from 'class-validator';
 
 export class CreateUserDto {
+  @IsEmpty()
+  id: number;
+
   @IsNotEmpty()
   @IsString()
   name: string;

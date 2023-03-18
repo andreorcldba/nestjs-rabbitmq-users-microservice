@@ -24,7 +24,6 @@ export class UsersService {
     });
 
     user = user.map((v) => {
-      delete v.remember_token;
       delete v.password;
 
       return v;
@@ -71,7 +70,6 @@ export class UsersService {
         password: await bcrypt.hash(createUserDto.password, 8),
       });
 
-      delete user.remember_token;
       delete user.password;
 
       return user;
