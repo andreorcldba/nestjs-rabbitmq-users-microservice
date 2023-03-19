@@ -20,6 +20,7 @@ services:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
       - RABBITMQ_QUEUE_NAME=user-authentication
+      - RABBITMQ_QUEUE_NAME_DLQ=user-authentication-dlq
       - USER_MICROSERVICE_TOKEN=XJS87^M5MGfJ
     command: npm run start:dev
     ports:

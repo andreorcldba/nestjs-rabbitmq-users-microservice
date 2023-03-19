@@ -6,7 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './modules/users/users.module';
 import * as Joi from 'joi';
 import { AuthenticationsModule } from './modules/authentications/authentications.module';
-
+import { ProfileModule } from './modules/profile/profile.module';
 @Module({
   imports: [
     DatabaseModule,
@@ -21,6 +21,7 @@ import { AuthenticationsModule } from './modules/authentications/authentications
     }),
     UsersModule,
     AuthenticationsModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
