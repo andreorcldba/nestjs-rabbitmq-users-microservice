@@ -1,6 +1,6 @@
-import { Exclude } from 'class-transformer';
 import { DefaultBaseEntity } from 'src/modules/base/entities/base.entity';
-import { AfterInsert, BeforeInsert, Column, Entity } from 'typeorm';
+import { Profile } from 'src/modules/profile/entities/profile.entity';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity('users')
 export class Users extends DefaultBaseEntity {
@@ -9,15 +9,13 @@ export class Users extends DefaultBaseEntity {
     Object.assign(this, partial);
   }
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  public name: string;
-
   @Column({ type: 'varchar', length: 255, nullable: true, unique: true })
   public email: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   public password: string;
 
-  @Column({ type: 'boolean', default: true, nullable: false })
-  public status: boolean;
+  @OneToOne(() => Profile, { cascade: true })
+  @JoinColumn()
+  profile: Profile;
 }

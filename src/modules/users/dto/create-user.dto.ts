@@ -1,19 +1,17 @@
+import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsEmail,
   IsString,
-  IsOptional,
-  IsBoolean,
   IsEmpty,
+  ValidateNested,
+  IsOptional,
 } from 'class-validator';
+import { CreateProfileDto } from 'src/modules/profile/dto/create-profile.dto';
 
 export class CreateUserDto {
-  @IsEmpty()
+  @IsOptional()
   id: number;
-
-  @IsNotEmpty()
-  @IsString()
-  name: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -23,7 +21,8 @@ export class CreateUserDto {
   @IsString()
   password: string;
 
-  @IsOptional()
-  @IsBoolean()
-  status: boolean;
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => CreateProfileDto)
+  profile: CreateProfileDto;
 }

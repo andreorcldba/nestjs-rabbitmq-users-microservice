@@ -1,25 +1,27 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { responseHttpErrorMessage } from 'src/constants/http-responses';
-import { responsePgErrorMessage } from 'src/constants/pg-responses';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from './entities/users.entity';
 import * as bcrypt from 'bcrypt';
 import { RpcException } from '@nestjs/microservices';
+import { Profile } from '../profile/entities/profile.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
+    @InjectRepository(Profile)
+    private profileRepository: Repository<Profile>,
   ) {}
 
   async findAll(): Promise<Users[]> {
     let user = await this.usersRepository.find({
-      where: {
-        status: true,
+      relations: {
+        profile: true,
       },
     });
 
@@ -37,9 +39,11 @@ export class UsersService {
 
   async findOne(id: number): Promise<Users> {
     const user = await this.usersRepository.findOne({
+      relations: {
+        profile: true,
+      },
       where: {
         id,
-        status: true,
       },
     });
 
@@ -53,7 +57,6 @@ export class UsersService {
     const user = await this.usersRepository.findOne({
       where: {
         email,
-        status: true,
       },
     });
 
@@ -64,52 +67,41 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<Users> {
-    try {
-      const user = await this.usersRepository.save({
-        ...createUserDto,
-        password: await bcrypt.hash(createUserDto.password, 8),
-      });
+    const user = await this.usersRepository.save({
+      ...createUserDto,
+      password: await bcrypt.hash(createUserDto.password, 8),
+    });
 
-      delete user.password;
+    delete user.password;
 
-      return user;
-    } catch (error) {
-      throw new RpcException(responsePgErrorMessage[error?.code || 'unknown']);
-    }
+    return user;
   }
 
   async update(
     updateUserDto: UpdateUserDto, //: Promise<Users>
   ) {
-    try {
-      const { id } = updateUserDto;
+    if (updateUserDto?.password)
+      updateUserDto.password = await bcrypt.hash(updateUserDto.password, 8);
 
-      delete updateUserDto.id;
+    const user = await this.findOne(updateUserDto.id);
 
-      if (updateUserDto?.password)
-        updateUserDto.password = await bcrypt.hash(updateUserDto.password, 8);
+    await this.usersRepository.save({
+      ...user,
+      ...updateUserDto,
+      password: await bcrypt.hash(updateUserDto.password, 8),
+    });
 
-      const user = await this.usersRepository.update({ id }, updateUserDto);
+    delete user.password;
 
-      return user;
-    } catch (error) {
-      console.log(error);
-      throw new RpcException(responsePgErrorMessage[error?.code || 'unknown']);
-    }
+    return user;
   }
 
-  remove(id: number) {
-    const updateUserDto = new UpdateUserDto();
-    updateUserDto.id = id;
-    updateUserDto.status = false;
-    try {
-      const user = this.usersRepository.update(id, updateUserDto);
+  async remove(id: number) {
+    const user = await this.findOne(id);
 
-      return user;
-    } catch (error) {
-      console.log(error);
+    await this.usersRepository.remove(user);
+    await this.profileRepository.remove(user.profile);
 
-      return responsePgErrorMessage[error?.code || 'unknown'];
-    }
+    return user;
   }
 }

@@ -17,7 +17,6 @@ export class AuthenticationsService {
     const user = await this.usersRepository.findOne({
       where: {
         email: authenticationDto.email,
-        status: true,
       },
     });
 
