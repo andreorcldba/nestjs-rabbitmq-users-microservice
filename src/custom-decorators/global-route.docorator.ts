@@ -4,15 +4,15 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/filters/parseResponseHttpException.filters';
 import { MessagePattern } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
+import { GlobalExceptionFilter } from 'src/filters/global.filter';
 
 export function GlobalRouteDecorator(event: string) {
   const configService = new ConfigService();
 
   return applyDecorators(
-    UseFilters(HttpExceptionFilter),
+    UseFilters(GlobalExceptionFilter),
     UsePipes(new ValidationPipe({ whitelist: true, transform: true })),
     MessagePattern({
       eventName: event,
