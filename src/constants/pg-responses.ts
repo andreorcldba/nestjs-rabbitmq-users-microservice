@@ -7,5 +7,9 @@ export const responsePgErrorMessage: ResponseMessage = {
     ...responseHttpErrorMessage[HttpStatus.BAD_REQUEST],
     message: ['Resource already exists'],
   },
-  ['unknown']: responseHttpErrorMessage[HttpStatus.INTERNAL_SERVER_ERROR],
+  23503: {
+    ...responseHttpErrorMessage[HttpStatus.BAD_REQUEST],
+    message: ['Invalid relation'],
+  },
+  unknown: responseHttpErrorMessage[HttpStatus.INTERNAL_SERVER_ERROR],
 };

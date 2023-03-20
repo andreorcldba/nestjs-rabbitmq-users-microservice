@@ -3,6 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Users } from 'src/modules/users/entities/users.entity';
 import { Profile } from 'src/modules/profile/entities/profile.entity';
+import { FederalUnit } from 'src/modules/federal_units/entities/federal_unit.entity';
+import { City } from 'src/modules/cities/entities/city.entity';
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { Profile } from 'src/modules/profile/entities/profile.entity';
         username: configService.get('POSTGRES_USER'),
         password: configService.get('POSTGRES_PASSWORD'),
         database: configService.get('POSTGRES_DB'),
-        entities: [Users, Profile],
+        entities: [Users, Profile, FederalUnit, City],
         synchronize: true,
         migrations: [],
         migrationsTableName: 'migrations',
