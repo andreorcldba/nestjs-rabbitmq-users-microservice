@@ -1,6 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { DefaultBaseEntity } from 'src/modules/base/entities/base.entity';
-import { FederalUnit } from 'src/modules/federal_units/entities/federal_unit.entity';
+import { FederalUnit } from 'src/modules/federal-units/entities/federal-unit.entity';
+import { DefaultBaseEntity } from 'src/typeorm-base/entities/base.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 
 @Entity('cities')

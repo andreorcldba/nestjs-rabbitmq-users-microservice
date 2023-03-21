@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { responseHttpErrorMessage } from 'src/constants/http-responses';
 import { responsePgErrorMessage } from 'src/constants/pg-responses';
 import { Repository } from 'typeorm';
-import { FederalUnit } from '../federal_units/entities/federal_unit.entity';
+import { FederalUnit } from '../federal-units/entities/federal-unit.entity';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
 import { City } from './entities/city.entity';

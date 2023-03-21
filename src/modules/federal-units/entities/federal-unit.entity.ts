@@ -1,4 +1,4 @@
-import { DefaultBaseEntity } from 'src/modules/base/entities/base.entity';
+import { DefaultBaseEntity } from 'src/typeorm-base/entities/base.entity';
 import { City } from 'src/modules/cities/entities/city.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 

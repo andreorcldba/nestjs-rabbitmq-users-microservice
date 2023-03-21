@@ -1,5 +1,5 @@
-import { DefaultBaseEntity } from 'src/modules/base/entities/base.entity';
-import { Column, Entity, Unique } from 'typeorm';
+import { DefaultBaseEntity } from 'src/typeorm-base/entities/base.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('profiles')
 export class Profile extends DefaultBaseEntity {

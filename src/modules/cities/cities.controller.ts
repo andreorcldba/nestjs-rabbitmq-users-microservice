@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { responsePgErrorMessage } from 'src/constants/pg-responses';
-import { GlobalRouteDecorator } from 'src/custom-decorators/global-route.docorator';
+import { GlobalRouteDecorator } from 'src/decorators/global-route.docorator';
 import { CitiesService } from './cities.service';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';

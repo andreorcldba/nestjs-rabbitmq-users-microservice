@@ -4,9 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { responseHttpErrorMessage } from 'src/constants/http-responses';
 import { responsePgErrorMessage } from 'src/constants/pg-responses';
 import { Repository } from 'typeorm';
-import { CreateFederalUnitDto } from './dto/create-federal_unit.dto';
-import { UpdateFederalUnitDto } from './dto/update-federal_unit.dto';
-import { FederalUnit } from './entities/federal_unit.entity';
+import { CreateFederalUnitDto } from './dto/create-federal-unit.dto';
+import { UpdateFederalUnitDto } from './dto/update-federal-unit.dto';
+import { FederalUnit } from './entities/federal-unit.entity';
 
 @Injectable()
 export class FederalUnitsService {

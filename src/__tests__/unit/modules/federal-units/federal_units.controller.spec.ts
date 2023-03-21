@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FederalUnitsController } from '../federal_units.controller';
+import { FederalUnitsController } from 'src/modules/federal-units/federal-units.controller';
+import { FederalUnitsService } from 'src/modules/federal-units/federal-units.service';
 
 describe('FederalUnitsController', () => {
   let controller: FederalUnitsController;

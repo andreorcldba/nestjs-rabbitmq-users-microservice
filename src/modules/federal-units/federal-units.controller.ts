@@ -1,9 +1,9 @@
 import { Controller } from '@nestjs/common';
 import { Payload } from '@nestjs/microservices';
-import { FederalUnitsService } from './federal_units.service';
-import { CreateFederalUnitDto } from './dto/create-federal_unit.dto';
-import { UpdateFederalUnitDto } from './dto/update-federal_unit.dto';
-import { GlobalRouteDecorator } from 'src/custom-decorators/global-route.docorator';
+import { GlobalRouteDecorator } from 'src/decorators/global-route.docorator';
+import { CreateFederalUnitDto } from './dto/create-federal-unit.dto';
+import { UpdateFederalUnitDto } from './dto/update-federal-unit.dto';
+import { FederalUnitsService } from './federal-units.service';
 
 @Controller()
 export class FederalUnitsController {

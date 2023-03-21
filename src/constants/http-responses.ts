@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
-import { ResponseMessage } from 'src/interfaces/http-response.interface';
+import { IResponseMessage } from 'src/interfaces/http-response.interface';
 
-export const responseHttpErrorMessage: ResponseMessage = {
+export const responseHttpErrorMessage: IResponseMessage = {
   [HttpStatus.BAD_REQUEST]: {
     statusCode: HttpStatus.BAD_REQUEST,
     message: ['Request is inválid'],

@@ -3,7 +3,7 @@ import { CitiesService } from './cities.service';
 import { CitiesController } from './cities.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { City } from './entities/city.entity';
-import { FederalUnit } from '../federal_units/entities/federal_unit.entity';
+import { FederalUnit } from '../federal-units/entities/federal-unit.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([City, FederalUnit])],

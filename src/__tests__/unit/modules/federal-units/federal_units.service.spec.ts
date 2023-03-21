@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FederalUnitsService } from '../federal_units.service';
+import { FederalUnitsService } from 'src/modules/federal-units/federal-units.service';
 
 describe('FederalUnitsService', () => {
   let service: FederalUnitsService;

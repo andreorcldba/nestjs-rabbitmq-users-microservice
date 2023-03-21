@@ -1,19 +1,25 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Users } from '../users/entities/users.entity';
+import { User } from '../users/entities/users.entity';
 import { AuthenticationDto } from './dto/authentication.dto';
 import * as bcrypt from 'bcrypt';
 import { responseHttpErrorMessage } from 'src/constants/http-responses';
+import {
+  IResponseHttpError,
+  IResponseMessage,
+} from 'src/interfaces/http-response.interface';
 
 @Injectable()
 export class AuthenticationsService {
   constructor(
-    @InjectRepository(Users)
-    private usersRepository: Repository<Users>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
-  async authenticate(authenticationDto: AuthenticationDto) {
+  async authenticate(
+    authenticationDto: AuthenticationDto,
+  ): Promise<User | IResponseHttpError> {
     const user = await this.usersRepository.findOne({
       where: {
         email: authenticationDto.email,

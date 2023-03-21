@@ -7,8 +7,8 @@ import { UsersModule } from './modules/users/users.module';
 import * as Joi from 'joi';
 import { AuthenticationsModule } from './modules/authentications/authentications.module';
 import { ProfileModule } from './modules/profile/profile.module';
-import { FederalUnitsModule } from './modules/federal_units/federal_units.module';
 import { CitiesModule } from './modules/cities/cities.module';
+import { FederalUnitsModule } from './modules/federal-units/federal-units.module';
 
 @Module({
   imports: [
