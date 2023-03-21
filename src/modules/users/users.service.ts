@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { responseHttpErrorMessage } from 'src/constants/http-responses';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/users.entity';
@@ -92,11 +92,9 @@ export class UsersService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<DeleteResult> {
     const user = await this.findOne(id);
 
-    await this.profileRepository.delete({ id: user.profile.id });
-
-    return {};
+    return await this.profileRepository.delete({ id: user.profile.id });
   }
 }

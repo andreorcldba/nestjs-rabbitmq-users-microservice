@@ -3,7 +3,7 @@ import { RpcException } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { responseHttpErrorMessage } from 'src/constants/http-responses';
 import { responsePgErrorMessage } from 'src/constants/pg-responses';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { CreateFederalUnitDto } from './dto/create-federal-unit.dto';
 import { UpdateFederalUnitDto } from './dto/update-federal-unit.dto';
 import { FederalUnit } from './entities/federal-unit.entity';
@@ -12,70 +12,58 @@ import { FederalUnit } from './entities/federal-unit.entity';
 export class FederalUnitsService {
   constructor(
     @InjectRepository(FederalUnit)
-    private federalUnitRepository: Repository<FederalUnit>,
+    private federalUnitRepository: Repository<FederalUnit>
   ) {}
 
-  async create(createFederalUnitDto: CreateFederalUnitDto) {
+  create(createFederalUnitDto: CreateFederalUnitDto): Promise<FederalUnit> {
     try {
-      return await this.federalUnitRepository.save(createFederalUnitDto);
+      return this.federalUnitRepository.save(createFederalUnitDto);
     } catch (error) {
+      console.log(error);
+
       throw new RpcException(responsePgErrorMessage[error?.code || 'unknown']);
     }
   }
 
-  async findAll() {
-    let federal_unit = await this.federalUnitRepository.find({
+  findAll(): Promise<FederalUnit[]> {
+    return this.federalUnitRepository.find({
       relations: {
-        cities: true,
-      },
+        cities: true
+      }
     });
-
-    if (!federal_unit.length)
-      throw new RpcException(responseHttpErrorMessage[HttpStatus.NOT_FOUND]);
-
-    return federal_unit;
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<FederalUnit> {
     const federal_unit = await this.federalUnitRepository.findOne({
       relations: {
-        cities: true,
+        cities: true
       },
       where: {
-        id,
-      },
+        id
+      }
     });
 
-    if (!federal_unit)
-      throw new RpcException(responseHttpErrorMessage[HttpStatus.NOT_FOUND]);
+    if (!federal_unit) throw new RpcException(responseHttpErrorMessage[HttpStatus.NOT_FOUND]);
 
     return federal_unit;
   }
 
-  async update(id: number, updateFederalUnitDto: UpdateFederalUnitDto) {
+  async update(id: number, updateFederalUnitDto: UpdateFederalUnitDto): Promise<UpdateResult> {
     try {
-      const federal_unit = await this.findOne(updateFederalUnitDto.id);
+      const federal_unit = await this.federalUnitRepository.update(id, updateFederalUnitDto);
 
-      await this.federalUnitRepository.save({
-        ...federal_unit,
-        ...updateFederalUnitDto,
-      });
+      if (federal_unit.affected === 0) throw new RpcException(responseHttpErrorMessage[HttpStatus.NOT_FOUND]);
 
       return federal_unit;
     } catch (error) {
+      console.log(error);
       throw new RpcException(responsePgErrorMessage[error?.code || 'unknown']);
     }
   }
 
   async remove(id: number) {
-    try {
-      const federal_unit = await this.findOne(id);
+    const federal_unit = await this.findOne(id);
 
-      await this.federalUnitRepository.remove(federal_unit);
-
-      return federal_unit;
-    } catch (error) {
-      throw new RpcException(responsePgErrorMessage[error?.code || 'unknown']);
-    }
+    return await this.federalUnitRepository.remove(federal_unit);
   }
 }
